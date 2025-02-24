@@ -1,5 +1,5 @@
 nav {
-  background-color: black;
+  background-color: #357abd;
   color: white;
   display: flex;
   align-items: center;
@@ -20,5 +20,15 @@ nav {
   display: flex;
   gap: 20px;
   font-size: 0.8em;
+}
+
+.nav-items a {
+  color: white;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-items a:hover {
+  color: #183451;
+  text-decoration: underline;
 }
