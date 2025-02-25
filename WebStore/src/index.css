@@ -1,3 +1,11 @@
+:root {
+  --main-font: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+
+  --font-color: #333;
+  --primary-color: #357abd;
+}
+
 body {
   margin: 0;
   padding: 0;

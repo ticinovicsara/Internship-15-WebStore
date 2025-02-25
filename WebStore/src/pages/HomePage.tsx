@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home/card.css";
+import "../styles/home/title.css";
 
 type Product = {
   id: number;
@@ -50,21 +51,27 @@ function HomePage() {
 
   return (
     <div>
-      <h1>Products</h1>
-      <input
-        type="text"
-        placeholder="Search..."
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className="products-container">
+        <h1>Products</h1>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="search-input"
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-      <select onChange={(e) => setCategory(e.target.value)}>
-        <option value="">All categories</option>
-        {categories.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
+        <select
+          onChange={(e) => setCategory(e.target.value)}
+          className="dropdown-categories"
+        >
+          <option value="">All categories</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div
         style={{
@@ -75,15 +82,15 @@ function HomePage() {
         }}
       >
         {filteredProducts.map((p) => (
-          <div className="item-card" key={p.id}>
-            <Link key={p.id} to={`/product/${p.id}`}>
-              <img src={p.image} />
-              <div className="text-box">
-                <h4>{p.title}</h4>
-                <p>{p.price}</p>
-              </div>
-            </Link>
-          </div>
+          <Link key={p.id} to={`/product/${p.id}`} className="item-card">
+            <div className="image-container">
+              <img src={p.image} alt={p.title} />
+            </div>
+            <div className="text-box">
+              <h4>{p.title}</h4>
+              <p>{p.price} &euro;</p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
