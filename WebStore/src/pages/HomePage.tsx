@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "../styles/home/card.css";
 
 type Product = {
   id: number;
@@ -11,7 +12,6 @@ type Product = {
 
 function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
-
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -66,13 +66,24 @@ function HomePage() {
         ))}
       </select>
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "15px",
+          justifyContent: "center",
+        }}
+      >
         {filteredProducts.map((p) => (
-          <Link key={p.id} to={`/product/${p.id}`}>
-            <img src={p.image} alt={p.title} />
-            <h4>{p.title}</h4>
-            <p>{p.price}</p>
-          </Link>
+          <div className="item-card" key={p.id}>
+            <Link key={p.id} to={`/product/${p.id}`}>
+              <img src={p.image} />
+              <div className="text-box">
+                <h4>{p.title}</h4>
+                <p>{p.price}</p>
+              </div>
+            </Link>
+          </div>
         ))}
       </div>
     </div>
