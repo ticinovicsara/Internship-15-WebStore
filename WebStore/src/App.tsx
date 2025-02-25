@@ -11,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/add-product" element={<AddProductPage />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

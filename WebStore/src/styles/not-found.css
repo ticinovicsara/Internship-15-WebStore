@@ -9,13 +9,12 @@
 
 .not-found-image {
   scale: 0.8;
-  padding: 0;
-  margin: 0;
+  margin-top: -140px;
 }
 
 .oops-text {
   font-size: 1.1em;
-  margin-top: -80px;
+  margin-top: -150px;
   margin-bottom: 30px;
 }
 
