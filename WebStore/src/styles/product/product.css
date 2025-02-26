@@ -1,12 +1,12 @@
 .details-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 40px auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   gap: 20px;
+  font-family: var(--main-font);
 }
 
 .product-details {
@@ -14,7 +14,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   gap: 30px;
   background: #ffffff;
   padding: 20px;
@@ -30,11 +29,16 @@
 }
 
 .details-text {
-  flex: 1;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   width: 40%;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .details-text h1 {
@@ -45,6 +49,10 @@
 .details-text p {
   font-size: 18px;
   color: #555;
+}
+
+.details-text img {
+  scale: 0.1;
 }
 
 .description-box {
@@ -71,4 +79,66 @@
     width: 100%;
     max-width: 300px;
   }
+}
+
+.purchase-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-container p {
+  font-size: 0.8em;
+}
+
+.purchase-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.purchase-box img {
+  scale: 0.1;
+  width: 40%;
+  padding: 0;
+  margin: -15%;
+  height: auto;
+}
+
+.purchase-box h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.add-product-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin-bottom: 20px;
+  width: 40%;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.3em;
+}
+
+.add-product-btn:hover {
+  background-color: #0056b3;
+}
+
+.credit-cards {
+  display: flex;
+  width: 50%;
+}
+
+.credit-cards img {
+  scale: 0.2;
+  height: auto;
+  margin: -50px;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Payment } from "../components/Payment";
 import "../styles/product/product.css";
 
 type Product = {
@@ -58,14 +59,12 @@ function ProductPage() {
         <img src={product.image} alt={product.title} />
         <div className="details-text">
           <h1>{product.title}</h1>
-          <p>Price: {product.price} €</p>
+          <p>Price: {product.price} &euro;</p>
           <p>Category: {product.category}</p>
-          <div className="purchase-box">
-            <button className="add-product-btn">BUY PRODUCT</button>
-            <h3>Buy NOW and save up to 30%!</h3>
-            <img src="../assets/card-images/credit-card-icon.png" />
-            <img src="../assets/card-images/credit-card.png" />
-          </div>
+          <button className="add-product-btn">
+            BUY FOR ONLY {product.price} &euro;
+          </button>
+          <Payment />
         </div>
       </div>
       <div className="description-box">
