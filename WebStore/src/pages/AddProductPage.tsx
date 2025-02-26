@@ -1,7 +1,12 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import { AttachMoney, Image, ShoppingCart } from "@mui/icons-material";
+import {
+  AttachMoney,
+  Category,
+  Image,
+  ShoppingCart,
+} from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/new-product/form.css";
@@ -14,17 +19,41 @@ const AddProductPage: React.FC = () => {
   const handleAddProduct = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const priceValue = parseFloat(productPrice);
+
     if (!productName || !productPrice || !productImage) {
       toast.error("All fields are required!", {
         position: "top-right",
         autoClose: 3000,
+        hideProgressBar: true,
+      });
+      return;
+    } else if (priceValue <= 0) {
+      toast.error("Price cannot be less than 0!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
       });
       return;
     }
 
+    const newProduct = {
+      id: Date.now(),
+      title: productName,
+      price: productPrice,
+      image: productImage,
+      category: "custom",
+    };
+
+    const storedProducts = JSON.parse(localStorage.getItem("products") ?? "[]");
+
+    const updatedProducts = [...storedProducts, newProduct];
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+
     toast.success("Product added successfully!", {
       position: "top-right",
       autoClose: 2000,
+      hideProgressBar: true,
     });
 
     setProductName("");
@@ -33,7 +62,7 @@ const AddProductPage: React.FC = () => {
   };
 
   return (
-    <div className="form-container" onSubmit={handleAddProduct}>
+    <form className="form-container" onSubmit={handleAddProduct}>
       <h1>Add New Product</h1>
       <TextField
         required
@@ -87,7 +116,7 @@ const AddProductPage: React.FC = () => {
       <button className="newProduct-btn">Add Product</button>
 
       <ToastContainer />
-    </div>
+    </form>
   );
 };
 
