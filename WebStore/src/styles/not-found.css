@@ -4,17 +4,20 @@
   text-align: center;
   position: relative;
   font-family: var(--main-font);
+  height: 50vh;
 }
 
 .not-found-image {
-  scale: 0.8;
-  margin-top: -20%;
+  scale: 0.6;
+  margin-top: -30%;
+  z-index: 1;
 }
 
 .oops-text {
   font-size: 1.1em;
-  margin-top: -20%;
+  margin-top: -30%;
   margin-bottom: 30px;
+  z-index: 10;
 }
 
 .link a {
@@ -27,8 +30,15 @@
   font-weight: bold;
   font-size: 1.5em;
   transition: color 0.3s ease;
+  z-index: 11;
 }
 
 .back-home:hover {
   color: #254871;
+}
+
+@media screen and (max-width: 600px) {
+  .not-found-image {
+    margin-top: -10%;
+  }
 }

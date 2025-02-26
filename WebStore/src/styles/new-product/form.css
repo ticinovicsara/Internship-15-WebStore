@@ -3,26 +3,38 @@
   flex-direction: column;
   align-items: center;
   align-self: center;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: var(--main-font);
   text-align: center;
-  gap: 20px;
-  font-size: 1.6em;
-  margin-top: 70px;
-  color: #333333;
+  font-size: 1.5em;
+  color: var(--font-color);
+
+  max-width: 500px;
+  gap: 30px;
+  margin: 50px auto;
+  margin-bottom: 0;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .newProduct-btn {
-  border-radius: 5px;
-  font-size: 1em;
-  margin-top: 20px;
-  color: #333333;
-  transition: background-color 0.3s ease;
-  background-color: #27ae5f81;
+  width: 70%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  font-size: 0.7em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
 }
 
 .newProduct-btn:hover {
-  background-color: #27ae5f;
-  cursor: pointer;
-  color: black;
+  background: #0056b3;
+}
+
+.MuiTextField-root {
+  width: 80%;
+  margin-bottom: 15px !important;
 }
