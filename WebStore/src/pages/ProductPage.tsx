@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "../styles/product/product.css";
 
 type Product = {
   id: number;
@@ -11,7 +12,7 @@ type Product = {
 };
 
 function ProductPage() {
-  const { productId } = useParams(); // Access the productId from the URL
+  const { productId } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
@@ -37,12 +38,18 @@ function ProductPage() {
   }
 
   return (
-    <div>
-      <h1>{product.title}</h1>
-      <img src={product.image} alt={product.title} />
-      <p>Price: {product.price} €</p>
-      <p>Category: {product.category}</p>
-      <p>Description: {product.description}</p>
+    <div className="details-container">
+      <div className="product-details">
+        <img src={product.image} alt={product.title} />
+        <div className="details-text">
+          <h1>{product.title}</h1>
+          <p>Price: {product.price} €</p>
+          <p>Category: {product.category}</p>
+        </div>
+      </div>
+      <div className="description-box">
+        <p>Description: {product.description}</p>
+      </div>
     </div>
   );
 }
