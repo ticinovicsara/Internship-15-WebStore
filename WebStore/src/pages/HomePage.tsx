@@ -33,7 +33,12 @@ function HomePage() {
           "https://fakestoreapi.com/products/categories"
         );
         const catData = await catRes.json();
-        setCategories(catData);
+
+        const localCategories = [
+          ...new Set(localProducts.map((p) => p.category)),
+        ];
+
+        setCategories([...new Set([...catData, ...localCategories])]);
       } catch (error) {
         console.error("Error fetching products:", error);
       }

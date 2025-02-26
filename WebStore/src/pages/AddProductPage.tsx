@@ -15,13 +15,14 @@ const AddProductPage: React.FC = () => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productImage, setProductImage] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleAddProduct = (event: React.FormEvent) => {
     event.preventDefault();
 
     const priceValue = parseFloat(productPrice);
 
-    if (!productName || !productPrice || !productImage) {
+    if (!productName || !productPrice || !productImage || !category) {
       toast.error("All fields are required!", {
         position: "top-right",
         autoClose: 3000,
@@ -42,13 +43,23 @@ const AddProductPage: React.FC = () => {
       title: productName,
       price: productPrice,
       image: productImage,
-      category: "custom",
+      category: category,
     };
 
     const storedProducts = JSON.parse(localStorage.getItem("products") ?? "[]");
 
     const updatedProducts = [...storedProducts, newProduct];
     localStorage.setItem("products", JSON.stringify(updatedProducts));
+
+    const storedCategories = JSON.parse(
+      localStorage.getItem("categories") ?? "[]"
+    );
+    if (!storedCategories.includes(category)) {
+      localStorage.setItem(
+        "categories",
+        JSON.stringify([...storedCategories, category])
+      );
+    }
 
     toast.success("Product added successfully!", {
       position: "top-right",
@@ -92,6 +103,22 @@ const AddProductPage: React.FC = () => {
           startAdornment: (
             <InputAdornment position="start">
               <AttachMoney />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        required
+        id="product-category"
+        label="Category"
+        placeholder="Enter category"
+        variant="filled"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Category />
             </InputAdornment>
           ),
         }}
