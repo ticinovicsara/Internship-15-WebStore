@@ -33,12 +33,7 @@ function HomePage() {
           "https://fakestoreapi.com/products/categories"
         );
         const catData = await catRes.json();
-
-        const localCategories = [
-          ...new Set(localProducts.map((p) => p.category)),
-        ];
-
-        setCategories([...new Set([...catData, ...localCategories])]);
+        setCategories(catData);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -86,17 +81,19 @@ function HomePage() {
           justifyContent: "center",
         }}
       >
-        {filteredProducts.map((p) => (
-          <Link key={p.id} to={`/product/${p.id}`} className="item-card">
-            <div className="image-container">
-              <img src={p.image} alt={p.title} />
-            </div>
-            <div className="text-box">
-              <h4>{p.title}</h4>
-              <p>{p.price} &euro;</p>
-            </div>
-          </Link>
-        ))}
+        {filteredProducts.map((p) => {
+          return (
+            <Link key={p.id} to={`/product/${p.id}`} className="item-card">
+              <div className="image-container">
+                <img src={p.image} alt={p.title} />
+              </div>
+              <div className="text-box">
+                <h4>{p.title}</h4>
+                <p>{p.price} &euro;</p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
