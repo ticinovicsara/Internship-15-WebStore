@@ -6,6 +6,7 @@ import {
   Category,
   Image,
   ShoppingCart,
+  Description,
 } from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,15 +17,22 @@ const AddProductPage: React.FC = () => {
   const [productPrice, setProductPrice] = useState("");
   const [productImage, setProductImage] = useState("");
   const [category, setCategory] = useState("");
+  const [descripton, setDescription] = useState("");
 
   const handleAddProduct = (event: React.FormEvent) => {
     event.preventDefault();
 
     const priceValue = parseFloat(productPrice);
 
-    if (!productName || !productPrice || !productImage || !category) {
+    if (
+      !productName ||
+      !productPrice ||
+      !productImage ||
+      !category ||
+      !descripton
+    ) {
       toast.error("All fields are required!", {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: true,
       });
@@ -44,6 +52,7 @@ const AddProductPage: React.FC = () => {
       price: productPrice,
       image: productImage,
       category: category,
+      descripton: descripton,
     };
 
     const storedProducts = JSON.parse(localStorage.getItem("products") ?? "[]");
@@ -119,6 +128,22 @@ const AddProductPage: React.FC = () => {
           startAdornment: (
             <InputAdornment position="start">
               <Category />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        required
+        id="product-description"
+        label="Description"
+        placeholder="Enter description"
+        variant="filled"
+        value={category}
+        onChange={(e) => setDescription(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Description />
             </InputAdornment>
           ),
         }}

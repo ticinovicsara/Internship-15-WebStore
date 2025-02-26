@@ -17,6 +17,21 @@ function ProductPage() {
 
   useEffect(() => {
     async function fetchProduct() {
+      if (!productId) return;
+
+      const localProducts = localStorage.getItem("products");
+      if (localProducts) {
+        const productsArray: Product[] = JSON.parse(localProducts);
+        const localProduct = productsArray.find(
+          (item) => item.id === Number(productId)
+        );
+
+        if (localProduct) {
+          setProduct(localProduct);
+          return;
+        }
+      }
+
       if (productId) {
         try {
           const res = await fetch(
@@ -45,6 +60,12 @@ function ProductPage() {
           <h1>{product.title}</h1>
           <p>Price: {product.price} €</p>
           <p>Category: {product.category}</p>
+          <div className="purchase-box">
+            <button className="add-product-btn">BUY PRODUCT</button>
+            <h3>Buy NOW and save up to 30%!</h3>
+            <img src="../assets/card-images/credit-card-icon.png" />
+            <img src="../assets/card-images/credit-card.png" />
+          </div>
         </div>
       </div>
       <div className="description-box">
