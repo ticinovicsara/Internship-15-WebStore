@@ -1,4 +1,4 @@
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { CartIcon } from "./Cart";
 import "../styles/header/navbar.css";

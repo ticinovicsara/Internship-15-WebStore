@@ -4,7 +4,6 @@ import { useFetchRecommendedProducts } from "../hooks/useFetchRecommendedProduct
 import { CartManagement } from "../components/CartManagement";
 import ProductDetails from "../components/ProductDetails";
 import RecommendedProducts from "../components/RecommendedProducts";
-import { ToastContainer } from "react-toastify";
 import "../styles/product/product.css";
 import "../styles/product/purchase-component.css";
 import "../styles/product/recommended.css";
@@ -13,8 +12,6 @@ import NotFoundPage from "./NotFoundPage";
 const ProductPage = () => {
   const { productId } = useParams();
   const { product, loading } = useFetchProduct(productId) || {};
-
-  console.log("Rendering ProductPage", product);
 
   const category = product ? product.category : "";
   const {

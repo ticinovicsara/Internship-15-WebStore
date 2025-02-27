@@ -9,8 +9,6 @@ interface RecommendedProductsProps {
 const RecommendedProducts: React.FC<RecommendedProductsProps> = ({
   recommendedProducts,
 }) => {
-  console.log("Recommended Products:", recommendedProducts);
-
   return (
     <div className="recommended-products">
       <h2>Items you might like checking out</h2>

@@ -17,23 +17,32 @@ export const useFetchRecommendedProducts = (
     setLoading(true);
     setError(null);
 
-    console.log("Fetching recommended products for category:", category);
-    console.log("Excluding productId:", productId);
-
     const fetchRecommendedProducts = async () => {
       try {
-        const res = await fetch(`https://fakestoreapi.com/products/`);
-        const data: ProductProps[] = await res.json();
+        const storedProducts: ProductProps[] = JSON.parse(
+          localStorage.getItem("products") || "[]"
+        );
 
-        console.log("Fetched all products:", data);
-
-        const filteredData = data.filter(
+        const filteredLocal = storedProducts.filter(
           (item) => item.category === category && item.id !== Number(productId)
         );
 
-        console.log("Filtered recommended products:", filteredData);
+        if (filteredLocal.length > 0) {
+          setRecommendedProducts(filteredLocal);
+          setLoading(false);
+          return;
+        }
 
-        setRecommendedProducts(filteredData);
+        const res = await fetch(`https://fakestoreapi.com/products/`);
+        const data: ProductProps[] = await res.json();
+
+        const filteredAPI = data.filter(
+          (item) => item.category === category && item.id !== Number(productId)
+        );
+
+        setRecommendedProducts(filteredAPI);
+
+        localStorage.setItem("products", JSON.stringify(data));
       } catch (error) {
         setError("Failed to fetch recommended products");
         console.error("Fetch error:", error);

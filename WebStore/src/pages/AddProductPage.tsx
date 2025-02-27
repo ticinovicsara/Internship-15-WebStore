@@ -8,7 +8,7 @@ import {
   ShoppingCart,
   Description,
 } from "@mui/icons-material";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { validateProductForm } from "../components/validation";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/new-product/form.css";

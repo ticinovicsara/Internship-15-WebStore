@@ -3,50 +3,46 @@ import { ProductProps } from "../components/ProductProps";
 
 export const useFetchProduct = (productId: string | undefined) => {
   const [product, setProduct] = useState<ProductProps | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!productId) return;
 
-    const fetchProduct = async () => {
-      setLoading(true);
+    setLoading(true);
+    setError(null);
 
-      const localProducts = localStorage.getItem("products");
-      if (localProducts) {
-        const productsArray: ProductProps[] = JSON.parse(localProducts);
-        const localProduct = productsArray.find(
-          (p) => p.id === Number(productId)
+    const fetchProduct = async () => {
+      try {
+        const storedProducts = JSON.parse(
+          localStorage.getItem("products") || "[]"
         );
 
+        const localProduct = storedProducts.find(
+          (p: ProductProps) => p.id === Number(productId)
+        );
         if (localProduct) {
-          setProduct((prev) =>
-            JSON.stringify(prev) === JSON.stringify(localProduct)
-              ? prev
-              : localProduct
-          );
+          setProduct(localProduct);
           setLoading(false);
           return;
         }
-      }
 
-      try {
         const res = await fetch(
           `https://fakestoreapi.com/products/${productId}`
         );
-        const data = await res.json();
+        const data: ProductProps = await res.json();
 
-        setProduct((prev) =>
-          JSON.stringify(prev) === JSON.stringify(data) ? prev : data
-        );
+        setProduct(data);
       } catch (error) {
-        console.error("Failed to fetch product");
+        setError("Failed to fetch product");
+        console.error("Fetch error:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     fetchProduct();
   }, [productId]);
 
-  return { product, loading };
+  return { product, loading, error };
 };

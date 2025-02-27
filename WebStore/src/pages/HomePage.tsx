@@ -26,10 +26,15 @@ function HomePage() {
           })
         );
 
-        setProducts([...data, ...enrichedLocalProducts]);
+        const uniqueProducts = Array.from(
+          new Map(
+            [...data, ...enrichedLocalProducts].map((p) => [p.id, p])
+          ).values()
+        );
+
+        setProducts(uniqueProducts);
 
         const catData = await fetchCategories();
-
         const localCategories = Array.from(
           new Set(
             localProducts.map(
