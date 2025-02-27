@@ -1,8 +1,8 @@
-import { ReactElement } from "react";
+import { ReactElement, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { CartIcon } from "./Cart";
 import "../styles/header/navbar.css";
+import "../styles/header/cart.css";
 
 export const Navigation = (): ReactElement => {
   return (
@@ -12,7 +12,7 @@ export const Navigation = (): ReactElement => {
         <div className="nav-items">
           <Link to="/">Home</Link>
           <Link to="/add-product">Add Product</Link>
-          <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
+          <CartIcon />
         </div>
       </nav>
     </div>

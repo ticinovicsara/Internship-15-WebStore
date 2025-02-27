@@ -13,6 +13,7 @@ function ProductPage() {
   const [recommendedProducts, setRecommendedProducts] = useState<
     ProductProps[]
   >([]);
+  const [cart, setCart] = useState<ProductProps[]>([]);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -75,6 +76,23 @@ function ProductPage() {
     fetchProduct();
   }, [productId]);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    const updatedCart = [...cart, product];
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
+
   if (!product) {
     return <p>Loading product...</p>;
   }
@@ -87,7 +105,7 @@ function ProductPage() {
           <h1>{product.title}</h1>
           <p>Price: {product.price} &euro;</p>
           <p>Category: {product.category}</p>
-          <button className="add-product-btn">
+          <button className="add-product-btn" onClick={handleAddToCart}>
             BUY FOR ONLY {product.price} &euro;
           </button>
           <Payment />

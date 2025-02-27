@@ -32,6 +32,6 @@ nav {
   text-decoration: underline;
 }
 
-.fa-regular {
-  scale: 2;
+.cart-icon:hover {
+  cursor: pointer;
 }
