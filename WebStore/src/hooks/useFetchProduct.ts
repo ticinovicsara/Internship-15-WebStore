@@ -3,29 +3,18 @@ import { ProductProps } from "../components/ProductProps";
 
 export const useFetchProduct = (productId: string | undefined) => {
   const [product, setProduct] = useState<ProductProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) return;
-      const localProducts = localStorage.getItem("products");
-      if (localProducts) {
-        const productsArray: ProductProps[] = JSON.parse(localProducts);
-        const localProduct = productsArray.find(
-          (item) => item.id === Number(productId)
-        );
-        if (localProduct) {
-          setProduct(localProduct);
-          setLoading(false);
-          return;
-        }
-      }
+      setLoading(true);
 
       try {
-        const res = await fetch(
+        const response = await fetch(
           `https://fakestoreapi.com/products/${productId}`
         );
-        const data = await res.json();
+        const data = await response.json();
         setProduct(data);
       } catch (error) {
         console.error("Error fetching product:", error);

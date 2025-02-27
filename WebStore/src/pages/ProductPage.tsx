@@ -8,14 +8,16 @@ import { ToastContainer } from "react-toastify";
 import "../styles/product/product.css";
 import "../styles/product/purchase-component.css";
 import "../styles/product/recommended.css";
+import NotFoundPage from "./NotFoundPage";
 
 const ProductPage = () => {
   const { productId } = useParams();
   const { product, loading } = useFetchProduct(productId);
-  const recommendedProducts = useFetchRecommendedProducts(
-    product?.category || "",
-    productId
-  );
+  const {
+    recommendedProducts,
+    loading: recommendedLoading,
+    error,
+  } = useFetchRecommendedProducts(product?.category || "", productId);
   const { handleAddToCart } = CartManagement();
 
   if (loading) {
@@ -23,7 +25,7 @@ const ProductPage = () => {
   }
 
   if (!product) {
-    return <p>Product not found!</p>;
+    return <NotFoundPage />;
   }
 
   return (
@@ -35,7 +37,18 @@ const ProductPage = () => {
       <div className="description-box">
         <p>Description: {product.description}</p>
       </div>
-      <RecommendedProducts recommendedProducts={recommendedProducts} />
+
+      {recommendedLoading ? (
+        <p>Loading recommended products...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <RecommendedProducts
+          recommendedProducts={recommendedProducts}
+          currentCategory={product.category}
+        />
+      )}
+
       <ToastContainer
         position="bottom-left"
         autoClose={3000}
