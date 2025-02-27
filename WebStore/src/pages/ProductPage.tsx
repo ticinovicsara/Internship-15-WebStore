@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Payment } from "../components/Payment";
+import { Product } from "../components/Product";
+import { ProductProps } from "../components/ProductProps";
 import "../styles/product/product.css";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  category: string;
-  description: string;
-};
+import "../styles/product/purchase-component.css";
+import "../styles/product/recommended.css";
 
 function ProductPage() {
   const { productId } = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<ProductProps | null>(null);
+  const [recommendedProducts, setRecommendedProducts] = useState<
+    ProductProps[]
+  >([]);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -22,27 +20,41 @@ function ProductPage() {
 
       const localProducts = localStorage.getItem("products");
       if (localProducts) {
-        const productsArray: Product[] = JSON.parse(localProducts);
+        const productsArray: ProductProps[] = JSON.parse(localProducts);
         const localProduct = productsArray.find(
           (item) => item.id === Number(productId)
         );
 
         if (localProduct) {
           setProduct(localProduct);
+          fetchRecommendedProducts(localProduct.category);
           return;
         }
       }
 
-      if (productId) {
-        try {
-          const res = await fetch(
-            `https://fakestoreapi.com/products/${productId}`
-          );
-          const data = await res.json();
-          setProduct(data);
-        } catch (error) {
-          console.error("Error fetching product:", error);
-        }
+      try {
+        const res = await fetch(
+          `https://fakestoreapi.com/products/${productId}`
+        );
+        const data = await res.json();
+        setProduct(data);
+        fetchRecommendedProducts(data.category);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    }
+
+    async function fetchRecommendedProducts(category: string) {
+      try {
+        const res = await fetch(
+          `https://fakestoreapi.com/products/category/${category}`
+        );
+        const data = await res.json();
+        setRecommendedProducts(
+          data.filter((item: ProductProps) => item.id !== Number(productId))
+        );
+      } catch (error) {
+        console.error("Error fetching recommended products:", error);
       }
     }
 
@@ -69,6 +81,15 @@ function ProductPage() {
       </div>
       <div className="description-box">
         <p>Description: {product.description}</p>
+      </div>
+
+      <div className="recommended-products">
+        <h2>Možda će vam se svideti</h2>
+        <div className="recommended-list">
+          {recommendedProducts.map((item) => (
+            <Product key={item.id} item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );
