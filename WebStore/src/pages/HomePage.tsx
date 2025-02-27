@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ProductProps } from "../components/ProductProps";
 import "../styles/home/card.css";
 import "../styles/home/title.css";
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  category: string;
-};
-
 function HomePage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,13 +20,33 @@ function HomePage() {
           localStorage.getItem("products") ?? "[]"
         );
 
-        setProducts([...data, ...localProducts]);
+        const enrichedLocalProducts = localProducts.map(
+          (product: ProductProps) => ({
+            ...product,
+            category: product.category || "uncategorized",
+          })
+        );
+
+        setProducts([...data, ...enrichedLocalProducts]);
 
         const catRes = await fetch(
           "https://fakestoreapi.com/products/categories"
         );
         const catData = await catRes.json();
-        setCategories(catData);
+
+        const localCategories = Array.from(
+          new Set(
+            localProducts.map(
+              (product: ProductProps) => product.category || "uncategorized"
+            )
+          )
+        );
+
+        const allCategories = Array.from(
+          new Set([...catData, ...localCategories])
+        );
+
+        setCategories(allCategories);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
