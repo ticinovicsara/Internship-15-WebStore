@@ -1,6 +1,3 @@
-// Ovaj fajl sadrži funkcije za API pozive
-
-// Funkcija za preuzimanje proizvoda
 export const fetchProducts = async () => {
   try {
     const res = await fetch("https://fakestoreapi.com/products?limit=20");
@@ -12,7 +9,6 @@ export const fetchProducts = async () => {
   }
 };
 
-// Funkcija za preuzimanje kategorija proizvoda
 export const fetchCategories = async () => {
   try {
     const res = await fetch("https://fakestoreapi.com/products/categories");

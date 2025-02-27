@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useFetchProduct } from "../hooks/useFetchProduct";
 import { useFetchRecommendedProducts } from "../hooks/useFetchRecommendedProducts";
-import { CartManagement } from "../components/CartManagement";
-import ProductDetails from "../components/ProductDetails";
-import RecommendedProducts from "../components/RecommendedProducts";
+import { CartManagement } from "../components/Cart/CartManagement";
+import ProductDetails from "../components/product/ProductDetails";
+import RecommendedProducts from "../components/product/RecommendedProducts";
 import "../styles/product/product.css";
 import "../styles/product/purchase-component.css";
 import "../styles/product/recommended.css";

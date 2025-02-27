@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ProductProps } from "../components/ProductProps";
+import { ProductProps } from "../product/ProductProps";
 import { toast } from "react-toastify";
 
 export const CartManagement = () => {

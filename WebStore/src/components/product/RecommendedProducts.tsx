@@ -1,5 +1,5 @@
-import { ProductProps } from "../components/ProductProps";
-import { Product } from "../components/Product";
+import { ProductProps } from "../product/ProductProps";
+import { Product } from "../product/Product";
 
 interface RecommendedProductsProps {
   recommendedProducts: ProductProps[];

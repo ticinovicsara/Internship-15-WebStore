@@ -10,6 +10,7 @@ import {
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { validateProductForm } from "../components/validation";
+import { ProductProps } from "../components/product/ProductProps";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/new-product/form.css";
 
@@ -18,7 +19,7 @@ const AddProductPage: React.FC = () => {
   const [productPrice, setProductPrice] = useState("");
   const [productImage, setProductImage] = useState("");
   const [category, setCategory] = useState("");
-  const [descripton, setDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleAddProduct = (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,7 +29,7 @@ const AddProductPage: React.FC = () => {
       productPrice,
       productImage,
       category,
-      descripton
+      description
     );
 
     if (validationError) {
@@ -46,29 +47,35 @@ const AddProductPage: React.FC = () => {
       price: productPrice,
       image: productImage,
       category: category,
-      descripton: descripton,
+      description: description,
     };
 
     const storedProducts = JSON.parse(localStorage.getItem("products") ?? "[]");
 
     const updatedProducts = [...storedProducts, newProduct];
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
+
+    saveToLocalStorage(updatedProducts);
 
     const storedCategories = JSON.parse(
       localStorage.getItem("categories") ?? "[]"
     );
     if (!storedCategories.includes(category)) {
-      localStorage.setItem(
-        "categories",
-        JSON.stringify([...storedCategories, category])
-      );
+      saveToLocalStorage([...storedCategories, category]);
     }
+
+    window.dispatchEvent(new Event("storage"));
 
     toast.success("Product added successfully!");
 
     setProductName("");
     setProductPrice("");
     setProductImage("");
+    setCategory("");
+    setDescription("");
+  };
+
+  const saveToLocalStorage = (products: ProductProps[]) => {
+    localStorage.setItem("customProducts", JSON.stringify(products));
   };
 
   return (
@@ -128,7 +135,7 @@ const AddProductPage: React.FC = () => {
         label="Description"
         placeholder="Enter description"
         variant="filled"
-        value={descripton}
+        value={description}
         onChange={(e) => setDescription(e.target.value)}
         InputProps={{
           startAdornment: (

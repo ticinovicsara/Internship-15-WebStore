@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import { CartIcon } from "./Cart";
+import { CartIcon } from "./Cart/CartIcon";
 import "../styles/header/navbar.css";
 import "../styles/header/cart.css";
 

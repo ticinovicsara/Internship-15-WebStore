@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ProductProps } from "../components/ProductProps";
+import { ProductProps } from "../components/product/ProductProps";
 
 export const useFetchRecommendedProducts = (
   category: string,

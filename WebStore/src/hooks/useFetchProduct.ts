@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ProductProps } from "../components/ProductProps";
+import { ProductProps } from "../components/product/ProductProps";
 
 export const useFetchProduct = (productId: string | undefined) => {
   const [product, setProduct] = useState<ProductProps | null>(null);
@@ -15,7 +15,7 @@ export const useFetchProduct = (productId: string | undefined) => {
     const fetchProduct = async () => {
       try {
         const storedProducts = JSON.parse(
-          localStorage.getItem("products") || "[]"
+          localStorage.getItem("customProducts") || "[]"
         );
 
         const localProduct = storedProducts.find(

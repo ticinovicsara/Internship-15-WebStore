@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Product } from "../components/Product";
-import { ProductProps } from "../components/ProductProps";
+import { Product } from "../components/product/Product";
+import { ProductProps } from "../components/product/ProductProps";
 import { fetchCategories, fetchProducts } from "../api/api";
 import "../styles/home/card.css";
 import "../styles/home/title.css";
@@ -14,21 +14,14 @@ function HomePage() {
   useEffect(() => {
     const loadProductsAndCategories = async () => {
       try {
-        const data = await fetchProducts();
-        const localProducts = JSON.parse(
-          localStorage.getItem("products") ?? "[]"
-        );
-
-        const enrichedLocalProducts = localProducts.map(
-          (product: ProductProps) => ({
-            ...product,
-            category: product.category || "uncategorized",
-          })
+        const apiProducts = await fetchProducts();
+        const customProducts = JSON.parse(
+          localStorage.getItem("customProducts") ?? "[]"
         );
 
         const uniqueProducts = Array.from(
           new Map(
-            [...data, ...enrichedLocalProducts].map((p) => [p.id, p])
+            [...apiProducts, ...customProducts].map((p) => [p.id, p])
           ).values()
         );
 
@@ -37,7 +30,7 @@ function HomePage() {
         const catData = await fetchCategories();
         const localCategories = Array.from(
           new Set(
-            localProducts.map(
+            customProducts.map(
               (product: ProductProps) => product.category || "uncategorized"
             )
           )
@@ -53,6 +46,15 @@ function HomePage() {
     };
 
     loadProductsAndCategories();
+
+    const handleFocus = () => {
+      loadProductsAndCategories();
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   const filteredProducts = products.filter((p) => {
