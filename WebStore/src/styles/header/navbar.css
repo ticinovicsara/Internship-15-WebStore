@@ -31,3 +31,7 @@ nav {
   color: #183451;
   text-decoration: underline;
 }
+
+.fa-regular {
+  scale: 2;
+}

@@ -44,7 +44,21 @@ function ProductPage() {
       }
     }
 
-    async function fetchRecommendedProducts(category: string) {
+    async function fetchRecommendedProducts(
+      category: string,
+      localProducts?: ProductProps[]
+    ) {
+      if (localProducts) {
+        const filteredProducts = localProducts.filter(
+          (item) => item.category === category && item.id !== Number(productId)
+        );
+
+        if (filteredProducts.length > 0) {
+          setRecommendedProducts(filteredProducts);
+          return;
+        }
+      }
+
       try {
         const res = await fetch(
           `https://fakestoreapi.com/products/category/${category}`
@@ -84,12 +98,18 @@ function ProductPage() {
       </div>
 
       <div className="recommended-products">
-        <h2>Možda će vam se svideti</h2>
-        <div className="recommended-list">
-          {recommendedProducts.map((item) => (
-            <Product key={item.id} item={item} />
-          ))}
-        </div>
+        <h2>Items You might like checking out</h2>
+        {recommendedProducts.length === 0 ? (
+          <p className="no-recommendations">
+            No recommended products in this category.
+          </p>
+        ) : (
+          <div className="recommended-list">
+            {recommendedProducts.map((item) => (
+              <Product key={item.id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ const AddProductPage: React.FC = () => {
       return;
     } else if (priceValue <= 0) {
       toast.error("Price cannot be less than 0!", {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: true,
       });
@@ -138,7 +138,7 @@ const AddProductPage: React.FC = () => {
         label="Description"
         placeholder="Enter description"
         variant="filled"
-        value={category}
+        value={descripton}
         onChange={(e) => setDescription(e.target.value)}
         InputProps={{
           startAdornment: (
