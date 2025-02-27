@@ -9,6 +9,7 @@ import {
   Description,
 } from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
+import { validateProductForm } from "../components/validation";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/new-product/form.css";
 
@@ -22,23 +23,16 @@ const AddProductPage: React.FC = () => {
   const handleAddProduct = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const priceValue = parseFloat(productPrice);
+    const validationError = validateProductForm(
+      productName,
+      productPrice,
+      productImage,
+      category,
+      descripton
+    );
 
-    if (
-      !productName ||
-      !productPrice ||
-      !productImage ||
-      !category ||
-      !descripton
-    ) {
-      toast.error("All fields are required!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
-      return;
-    } else if (priceValue <= 0) {
-      toast.error("Price cannot be less than 0!", {
+    if (validationError) {
+      toast.error(validationError, {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: true,
@@ -70,11 +64,7 @@ const AddProductPage: React.FC = () => {
       );
     }
 
-    toast.success("Product added successfully!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-    });
+    toast.success("Product added successfully!");
 
     setProductName("");
     setProductPrice("");

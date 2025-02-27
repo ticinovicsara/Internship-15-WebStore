@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Product } from "../components/Product";
 import { ProductProps } from "../components/ProductProps";
+import { fetchCategories, fetchProducts } from "../api/api";
 import "../styles/home/card.css";
 import "../styles/home/title.css";
 
@@ -11,11 +12,9 @@ function HomePage() {
   const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
+    const loadProductsAndCategories = async () => {
       try {
-        const res = await fetch("https://fakestoreapi.com/products?limit=20");
-        const data = await res.json();
-
+        const data = await fetchProducts();
         const localProducts = JSON.parse(
           localStorage.getItem("products") ?? "[]"
         );
@@ -29,10 +28,7 @@ function HomePage() {
 
         setProducts([...data, ...enrichedLocalProducts]);
 
-        const catRes = await fetch(
-          "https://fakestoreapi.com/products/categories"
-        );
-        const catData = await catRes.json();
+        const catData = await fetchCategories();
 
         const localCategories = Array.from(
           new Set(
@@ -45,14 +41,13 @@ function HomePage() {
         const allCategories = Array.from(
           new Set([...catData, ...localCategories])
         );
-
         setCategories(allCategories);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching data:", error);
       }
-    }
+    };
 
-    fetchData();
+    loadProductsAndCategories();
   }, []);
 
   const filteredProducts = products.filter((p) => {
@@ -95,17 +90,7 @@ function HomePage() {
         }}
       >
         {filteredProducts.map((p) => {
-          return (
-            <Link key={p.id} to={`/product/${p.id}`} className="item-card">
-              <div className="image-container">
-                <img src={p.image} alt={p.title} />
-              </div>
-              <div className="text-box">
-                <h4>{p.title}</h4>
-                <p>{p.price} &euro;</p>
-              </div>
-            </Link>
-          );
+          return <Product key={p.id} item={p} />;
         })}
       </div>
     </div>
