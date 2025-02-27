@@ -6,6 +6,7 @@ import { ProductProps } from "../components/ProductProps";
 import "../styles/product/product.css";
 import "../styles/product/purchase-component.css";
 import "../styles/product/recommended.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function ProductPage() {
   const { productId } = useParams();
@@ -90,6 +91,8 @@ function ProductPage() {
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
+    toast.success("Product added to cart successfully!");
+
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
@@ -129,6 +132,12 @@ function ProductPage() {
           </div>
         )}
       </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={true}
+        rtl={false}
+      />
     </div>
   );
 }

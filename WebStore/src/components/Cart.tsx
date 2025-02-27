@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { toast, ToastContainer } from "react-toastify";
 
 export const CartIcon = () => {
   const [cart, setCart] = useState<
@@ -40,6 +41,10 @@ export const CartIcon = () => {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    toast.dismiss();
+    toast.success("Product removed successfully!");
+
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
@@ -90,6 +95,12 @@ export const CartIcon = () => {
           )}
         </div>
       )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={true}
+        rtl={false}
+      />
     </div>
   );
 };
