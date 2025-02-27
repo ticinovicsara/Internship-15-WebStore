@@ -154,10 +154,7 @@ const AddProductPage: React.FC = () => {
           ),
         }}
       />
-
       <button className="newProduct-btn">Add Product</button>
-
-      <ToastContainer />
     </form>
   );
 };

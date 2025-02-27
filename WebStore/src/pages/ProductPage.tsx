@@ -12,12 +12,17 @@ import NotFoundPage from "./NotFoundPage";
 
 const ProductPage = () => {
   const { productId } = useParams();
-  const { product, loading } = useFetchProduct(productId);
+  const { product, loading } = useFetchProduct(productId) || {};
+
+  console.log("Rendering ProductPage", product);
+
+  const category = product ? product.category : "";
   const {
     recommendedProducts,
     loading: recommendedLoading,
     error,
-  } = useFetchRecommendedProducts(product?.category || "", productId);
+  } = useFetchRecommendedProducts(category, productId);
+
   const { handleAddToCart } = CartManagement();
 
   if (loading) {
@@ -38,22 +43,17 @@ const ProductPage = () => {
         <p>Description: {product.description}</p>
       </div>
 
-      {recommendedLoading ? (
-        <p>Loading recommended products...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <RecommendedProducts
-          recommendedProducts={recommendedProducts}
-          currentCategory={product.category}
-        />
-      )}
-
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={true}
-      />
+      {product.category &&
+        (recommendedLoading ? (
+          <p>Loading recommended products...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <RecommendedProducts
+            recommendedProducts={recommendedProducts}
+            currentCategory={product.category}
+          />
+        ))}
     </div>
   );
 };

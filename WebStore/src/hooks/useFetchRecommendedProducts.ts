@@ -12,39 +12,37 @@ export const useFetchRecommendedProducts = (
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRecommendedProducts = async () => {
-      const localProducts = localStorage.getItem("products");
-      setLoading(true);
-      setError(null);
+    if (!category || !productId) return;
 
-      if (localProducts) {
-        const productsArray: ProductProps[] = JSON.parse(localProducts);
-        const filteredProducts = productsArray.filter(
+    setLoading(true);
+    setError(null);
+
+    console.log("Fetching recommended products for category:", category);
+    console.log("Excluding productId:", productId);
+
+    const fetchRecommendedProducts = async () => {
+      try {
+        const res = await fetch(`https://fakestoreapi.com/products/`);
+        const data: ProductProps[] = await res.json();
+
+        console.log("Fetched all products:", data);
+
+        const filteredData = data.filter(
           (item) => item.category === category && item.id !== Number(productId)
         );
-        setRecommendedProducts(filteredProducts);
-        setLoading(false);
-        return;
-      }
 
-      try {
-        const res = await fetch(
-          `https://fakestoreapi.com/products/category/${category}`
-        );
-        const data = await res.json();
-        setRecommendedProducts(
-          data.filter((item: ProductProps) => item.id !== Number(productId))
-        );
-        setLoading(false);
+        console.log("Filtered recommended products:", filteredData);
+
+        setRecommendedProducts(filteredData);
       } catch (error) {
         setError("Failed to fetch recommended products");
+        console.error("Fetch error:", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (category) {
-      fetchRecommendedProducts();
-    }
+    fetchRecommendedProducts();
   }, [category, productId]);
 
   return { recommendedProducts, loading, error };

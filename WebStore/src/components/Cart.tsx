@@ -95,12 +95,6 @@ export const CartIcon = () => {
           )}
         </div>
       )}
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={true}
-        rtl={false}
-      />
     </div>
   );
 };

@@ -6,21 +6,43 @@ export const useFetchProduct = (productId: string | undefined) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!productId) return;
+
     const fetchProduct = async () => {
-      if (!productId) return;
       setLoading(true);
 
+      const localProducts = localStorage.getItem("products");
+      if (localProducts) {
+        const productsArray: ProductProps[] = JSON.parse(localProducts);
+        const localProduct = productsArray.find(
+          (p) => p.id === Number(productId)
+        );
+
+        if (localProduct) {
+          setProduct((prev) =>
+            JSON.stringify(prev) === JSON.stringify(localProduct)
+              ? prev
+              : localProduct
+          );
+          setLoading(false);
+          return;
+        }
+      }
+
       try {
-        const response = await fetch(
+        const res = await fetch(
           `https://fakestoreapi.com/products/${productId}`
         );
-        const data = await response.json();
-        setProduct(data);
+        const data = await res.json();
+
+        setProduct((prev) =>
+          JSON.stringify(prev) === JSON.stringify(data) ? prev : data
+        );
       } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch product");
       }
+
+      setLoading(false);
     };
 
     fetchProduct();
