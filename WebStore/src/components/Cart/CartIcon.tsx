@@ -10,6 +10,17 @@ export const CartIcon = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const loadCartFromStorage = () => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  };
+
+  useEffect(() => {
+    loadCartFromStorage();
+  }, []);
+
   useEffect(() => {
     const updateCart = () => {
       const storedCart = localStorage.getItem("cart");

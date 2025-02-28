@@ -41,26 +41,31 @@ const AddProductPage: React.FC = () => {
       return;
     }
 
-    const newProduct = {
+    const newProduct: ProductProps = {
       id: Date.now(),
       title: productName,
-      price: productPrice,
+      price: parseFloat(productPrice),
       image: productImage,
       category: category,
       description: description,
     };
 
-    const storedProducts = JSON.parse(localStorage.getItem("products") ?? "[]");
+    const storedProducts = JSON.parse(
+      localStorage.getItem("customProducts") ?? "[]"
+    );
 
     const updatedProducts = [...storedProducts, newProduct];
 
-    saveToLocalStorage(updatedProducts);
+    localStorage.setItem("customProducts", JSON.stringify(updatedProducts));
 
     const storedCategories = JSON.parse(
       localStorage.getItem("categories") ?? "[]"
     );
     if (!storedCategories.includes(category)) {
-      saveToLocalStorage([...storedCategories, category]);
+      localStorage.setItem(
+        "categories",
+        JSON.stringify([...storedCategories, category])
+      );
     }
 
     window.dispatchEvent(new Event("storage"));
@@ -72,10 +77,6 @@ const AddProductPage: React.FC = () => {
     setProductImage("");
     setCategory("");
     setDescription("");
-  };
-
-  const saveToLocalStorage = (products: ProductProps[]) => {
-    localStorage.setItem("customProducts", JSON.stringify(products));
   };
 
   return (

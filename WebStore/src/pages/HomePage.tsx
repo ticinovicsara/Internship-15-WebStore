@@ -59,8 +59,8 @@ function HomePage() {
 
   const filteredProducts = products.filter((p) => {
     return (
-      p.title.toLowerCase().includes(search.toLowerCase()) &&
-      (!category || p.category === category)
+      p?.title?.toLowerCase().includes(search?.toLowerCase() || "") &&
+      (!category || p?.category === category)
     );
   });
 

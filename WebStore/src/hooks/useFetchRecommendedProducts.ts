@@ -20,7 +20,7 @@ export const useFetchRecommendedProducts = (
     const fetchRecommendedProducts = async () => {
       try {
         const storedProducts: ProductProps[] = JSON.parse(
-          localStorage.getItem("products") || "[]"
+          localStorage.getItem("customProducts") || "[]"
         );
 
         const filteredLocal = storedProducts.filter(
